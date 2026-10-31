@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="selection:bg-stone-200 selection:text-stone-900">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Ateliê Emma_Maria - Peças pintadas à mão com afeto. Personalização exclusiva para sua casa.">
+  <title>Ateliê Emma_Maria | Arte em Porcelana</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Belleza&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              sand: '#F9F7F2',
+              clay: '#E8E2D9',
+              earth: '#A67C52',
+              ink: '#2C2926',
+            }
+          },
+          fontFamily: {
+            display: ['Cormorant Garamond', 'serif'],
+            accent: ['Belleza', 'sans-serif'],
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #F9F7F2; }
+    ::-webkit-scrollbar-thumb { background: #A67C52; border-radius: 10px; }
+
+    /* Fluid Typography */
+    .text-fluid-h1 { font-size: clamp(2.5rem, 8vw, 5rem); }
+    .text-fluid-h2 { font-size: clamp(2rem, 5vw, 3.5rem); }
+
+    /* Image Overlay Transition - FAST */
+    .img-zoom { overflow: hidden; }
+    .img-zoom img { 
+      will-change: transform; 
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+    }
+    .img-zoom:hover img { transform: scale(1.05); }
+
+    /* Noise Texture Overlay */
+    .noise::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: url('https://grainy-gradients.vercel.app/noise.svg');
+      opacity: 0.04;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    /* Scroll Reveal - FLUID & FAST */
+    .reveal { 
+      opacity: 0; 
+      transform: translate3d(0, 24px, 0); 
+      will-change: opacity, transform;
+      transition: opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                  transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+    }
+    .reveal.is-visible { 
+      opacity: 1; 
+      transform: translate3d(0, 0, 0); 
+    }
+    
+    /* Stagger delays - TIGHT */
+    .delay-1 { transition-delay: 40ms; }
+    .delay-2 { transition-delay: 80ms; }
+    .delay-3 { transition-delay: 120ms; }
+    .delay-4 { transition-delay: 160ms; }
+    .delay-5 { transition-delay: 200ms; }
+    .delay-6 { transition-delay: 240ms; }
+
+    /* Hero text reveal - LIGHTER */
+    .hero-line { 
+      opacity: 0; 
+      transform: translate3d(0, 16px, 0); 
+      will-change: opacity, transform;
+      transition: opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                  transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+    }
+    .hero-line.is-visible { 
+      opacity: 1; 
+      transform: translate3d(0, 0, 0); 
+    }
+
+    /* Reduced Motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      html { scroll-behavior: auto !important; }
+      .reveal, .hero-line { opacity: 1; transform: none; }
+    }
+
+    /* Focus States */
+    a:focus-visible, button:focus-visible {
+      outline: 2px solid #A67C52;
+      outline-offset: 3px;
+    }
+
+    /* Smooth scroll for all */
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
+
+    /* Mobile Menu */
+    .mobile-menu-btn {
+      background: transparent;
+      border: none;
+      padding: 0.5rem;
+      cursor: pointer;
+      z-index: 100;
+    }
+    .mobile-menu-btn span {
+      display: block;
+      width: 24px;
+      height: 1.5px;
+      background: currentColor;
+      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      transform-origin: center;
+    }
+    .mobile-menu-btn span + span { margin-top: 5px; }
+    .mobile-menu-btn[aria-expanded="true"] span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .mobile-menu-btn[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+    .mobile-menu-btn[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    .mobile-menu-panel {
+      position: fixed;
+      top: 0; right: 0; bottom: 0;
+      width: 100%;
+      max-width: 280px;
+      background: rgba(249, 247, 242, 0.98);
+      backdrop-filter: blur(20px);
+      border-left: 1px solid #E8E2D9;
+      padding: 6rem 2rem 2rem;
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      z-index: 95;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .mobile-menu-panel.open { transform: translateX(0); }
+    .mobile-menu-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(44, 41, 38, 0.3);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 90;
+    }
+    .mobile-menu-overlay.open { opacity: 1; visibility: visible; }
+
+    @media (min-width: 768px) {
+      .mobile-menu-btn, .mobile-menu-panel, .mobile-menu-overlay { display: none; }
+    }
+  </style>
+</head>
+
+<body class="bg-brand-sand text-brand-ink font-sans noise overflow-x-hidden">
+
+  <!-- Header -->
+  <header class="fixed top-0 w-full z-[90] px-6 py-6">
+    <nav class="max-w-7xl mx-auto flex justify-between items-center">
+      <!-- Logo -->
+      <a href="#top" class="font-accent text-xl tracking-[0.2em] uppercase text-brand-ink" aria-label="Início">
+        Emma Maria
+      </a>
+
+      <!-- Mobile Menu Button -->
+      <button class="mobile-menu-btn md:hidden text-brand-ink" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileMenu" id="mobileMenuBtn">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <!-- Desktop Nav -->
+      <div class="hidden md:flex items-center gap-10">
+        <div class="flex gap-8 font-sans text-xs tracking-[0.3em] uppercase">
+          <a href="#galeria" class="text-brand-ink/70 hover:text-brand-earth transition-colors duration-200">Portfolio</a>
+          <a href="#instagram" class="text-brand-ink/70 hover:text-brand-earth transition-colors duration-200">Diário</a>
+          <a href="#processo" class="text-brand-ink/70 hover:text-brand-earth transition-colors duration-200">O Ateliê</a>
+        </div>
+        <a href="https://wa.me/5519996359152" target="_blank" rel="noopener noreferrer" class="hidden sm:inline-flex items-center gap-2 py-3 px-6 bg-brand-ink text-white rounded-full font-sans text-xs tracking-[0.2em] uppercase font-medium transition-all duration-200 hover:bg-brand-earth hover:shadow-lg" aria-label="WhatsApp">
+          <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.472.099-.174.05-.369-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.57-.076 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378 9.86 9.86 0 01-.398-.413.56.56 0 01-.006-.81 9.89 9.89 0 003.43-5.376.56.56 0 01.75-.323 9.88 9.88 0 018.17 4.174.56.56 0 01-.18.94 9.89 9.89 0 01-6.824 3.06zm-1.787-8.27c-.512 0-.978.292-1.218.694-.36.6-.36 1.486 0 2.078.36.6.843.984 1.263.984.42 0 .902-.384 1.263-.984.36-.592.36-1.478 0-2.078-.24-.402-.706-.694-1.218-.694zm0 1.628c.293 0 .56.18.648.414.12.324.12.88 0 1.205-.088.235-.355.414-.648.414-.293 0-.56-.179-.648-.414-.12-.325-.12-.88 0-1.205.088-.234.355-.414.648-.414z"/></svg>
+          Orçamento
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Mobile Menu Panel -->
+  <div class="mobile-menu-overlay md:hidden" id="mobileMenuOverlay" aria-hidden="true"></div>
+  <aside class="mobile-menu-panel md:hidden" id="mobileMenu" role="dialog" aria-label="Menu de navegação">
+    <nav class="flex flex-col gap-6">
+      <a href="#galeria" class="font-sans text-sm tracking-[0.2em] uppercase text-brand-ink/70 hover:text-brand-earth transition-colors duration-200">Portfolio</a>
+      <a href="#instagram" class="font-sans text-sm tracking-[0.2em] uppercase text-brand-ink/70 hover:text-brand-earth transition-colors duration-200">Diário</a>
+      <a href="#processo" class="font-sans text-sm tracking-[0.2em] uppercase text-brand-ink/70 hover:text-brand-earth transition-colors duration-200">O Ateliê</a>
+      <a href="#contato" class="font-sans text-sm tracking-[0.2em] uppercase text-brand-ink/70 hover:text-brand-earth transition-colors duration-200">Contato</a>
+      <a href="https://wa.me/5519996359152" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 py-3 px-6 bg-brand-ink text-white rounded-full font-sans text-xs tracking-[0.2em] uppercase font-medium transition-all duration-200 hover:bg-brand-earth hover:shadow-lg">
+        <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.472.099-.174.05-.369-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.57-.076 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378 9.86 9.86 0 01-.398-.413.56.56 0 01-.006-.81 9.89 9.89 0 003.43-5.376.56.56 0 01.75-.323 9.88 9.88 0 018.17 4.174.56.56 0 01-.18.94 9.89 9.89 0 01-6.824 3.06zm-1.787-8.27c-.512 0-.978.292-1.218.694-.36.6-.36 1.486 0 2.078.36.6.843.984 1.263.984.42 0 .902-.384 1.263-.984.36-.592.36-1.478 0-2.078-.24-.402-.706-.694-1.218-.694zm0 1.628c.293 0 .56.18.648.414.12.324.12.88 0 1.205-.088.235-.355.414-.648.414-.293 0-.56-.179-.648-.414-.12-.325-.12-.88 0-1.205.088-.234.355-.414.648-.414z"/></svg>
+        Falar no WhatsApp
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Hero Section -->
+  <section class="relative min-h-screen flex flex-col justify-center px-6 lg:px-20 pt-20" id="top">
+    <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      
+      <div class="lg:col-span-7 z-10">
+        <h1 class="font-display italic text-fluid-h1 leading-[0.9] mb-8">
+          <span class="block hero-line" style="transition-delay: 0ms">A beleza do</span>
+          <span class="block hero-line" style="transition-delay: 80ms">feito à mão.</span>
+        </h1>
+        <p class="font-sans font-light text-lg lg:text-xl text-brand-ink/70 max-w-md mb-12 hero-line" style="transition-delay: 160ms">
+          Transformamos porcelana branca em memórias afetivas através de traços delicados e cores únicas.
+        </p>
+        <div class="hero-line" style="transition-delay: 240ms">
+          <a href="https://wa.me/5519996359152" target="_blank" rel="noopener noreferrer" class="group relative inline-flex items-center gap-4 py-4 px-10 bg-brand-ink text-white rounded-full overflow-hidden transition-all duration-300 hover:pr-12 hover:shadow-xl" aria-label="Solicitar orçamento pelo WhatsApp">
+            <span class="font-sans text-sm tracking-widest uppercase font-medium">Solicitar orçamento</span>
+            <svg class="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="lg:col-span-5 relative aspect-[3/4] lg:aspect-auto lg:h-[80vh]">
+        <div class="reveal w-full h-full rounded-[2rem] lg:rounded-full overflow-hidden shadow-2xl" style="transition-delay: 120ms">
+          <img src="images/788728768_17905867569539765_8445616693359082886_n.jpg" class="w-full h-full object-cover" alt="Peça principal Ateliê Emma Maria" loading="eager">
+        </div>
+        <!-- Floating Label -->
+        <div class="reveal absolute -bottom-6 -left-6 lg:left-auto lg:-right-6 bg-brand-clay p-8 rounded-2xl shadow-xl border border-white/20 backdrop-blur-sm" style="transition-delay: 200ms">
+          <div class="font-accent text-xs tracking-widest uppercase mb-2 opacity-60">Peça exclusiva</div>
+          <div class="font-display text-2xl italic tracking-wide">Pintura Floral 2026</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce" aria-hidden="true">
+      <svg class="w-6 h-6 text-brand-ink/30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+    </div>
+  </section>
+
+  <!-- Portfolio Section -->
+  <section id="galeria" class="py-32 px-6 lg:px-20">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+        <div class="max-w-xl reveal">
+          <div class="font-accent text-xs tracking-[0.4em] uppercase text-brand-earth mb-4">Curadoria</div>
+          <h2 class="font-display italic text-fluid-h2 leading-tight">Obras que encantam o cotidiano.</h2>
+        </div>
+        <div class="font-sans text-sm text-brand-ink/50 uppercase tracking-widest pb-2 border-b border-brand-ink/10 reveal delay-1">
+          Scroll para explorar
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10">
+        <!-- Grid Items: Curated Mix -->
+        <div class="reveal group delay-1">
+          <div class="img-zoom aspect-[4/5] rounded-3xl mb-6">
+            <img src="images/537463229_17849549301539765_3303244773645564297_n.jpg" class="w-full h-full object-cover" alt="Bandeja de borboletas" loading="lazy">
+          </div>
+          <h3 class="font-display text-xl italic group-hover:text-brand-earth transition-colors duration-200">Bandeja Borboletas</h3>
+        </div>
+
+        <div class="reveal group delay-2 lg:mt-24">
+          <div class="img-zoom aspect-[4/5] rounded-3xl mb-6">
+            <img src="images/532910581_17847818328539765_4284026283762264157_n.jpg" class="w-full h-full object-cover" alt="Bandeja de lavanda" loading="lazy">
+          </div>
+          <h3 class="font-display text-xl italic group-hover:text-brand-earth transition-colors duration-200">Bandeja Lavanda</h3>
+        </div>
+
+        <div class="reveal group delay-3">
+          <div class="img-zoom aspect-[4/5] rounded-3xl mb-6">
+            <img src="images/537121197_17849548329539765_7441159107446564380_n.jpg" class="w-full h-full object-cover" alt="Prato decorativo com flores" loading="lazy">
+          </div>
+          <h3 class="font-display text-xl italic group-hover:text-brand-earth transition-colors duration-200">Prato Decorativo</h3>
+        </div>
+
+        <div class="reveal group delay-4 lg:-mt-12">
+          <div class="img-zoom aspect-[4/5] rounded-3xl mb-6">
+            <img src="images/564211031_17856987735539765_4445398928685907090_n.jpg" class="w-full h-full object-cover" alt="Pratinho de sobremesa floral" loading="lazy">
+          </div>
+          <h3 class="font-display text-xl italic group-hover:text-brand-earth transition-colors duration-200">Prato Floral</h3>
+        </div>
+
+        <div class="reveal group delay-5">
+          <div class="img-zoom aspect-[4/5] rounded-3xl mb-6">
+            <img src="images/553373465_17854437831539765_8120650136287522352_n.jpg" class="w-full h-full object-cover" alt="Pote com tampa" loading="lazy">
+          </div>
+          <h3 class="font-display text-xl italic group-hover:text-brand-earth transition-colors duration-200">Pote Decorado</h3>
+        </div>
+
+        <div class="reveal group delay-6 lg:mt-12">
+          <div class="img-zoom aspect-[4/5] rounded-3xl mb-6">
+            <img src="images/542745714_17851817811539765_8392658137216634846_n.jpg" class="w-full h-full object-cover" alt="Porta-joias" loading="lazy">
+          </div>
+          <h3 class="font-display text-xl italic group-hover:text-brand-earth transition-colors duration-200">Porta-joias</h3>
+        </div>
+      </div>
+
+      <div class="mt-20 text-center reveal delay-1">
+        <a href="https://instagram.com/atelieemma_maria" target="_blank" rel="noopener noreferrer" class="font-sans text-xs tracking-[0.5em] uppercase hover:text-brand-earth transition-colors duration-200 border-b border-brand-ink/20 pb-2">Acompanhe no Instagram</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Instagram Section -->
+  <section id="instagram" class="py-32 px-6 lg:px-20 bg-brand-ink">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+        <div class="max-w-xl reveal">
+          <div class="font-accent text-xs tracking-[0.4em] uppercase text-brand-earth mb-4">Nosso Diário</div>
+          <h2 class="font-display italic text-fluid-h2 leading-tight text-white">O dia a dia do ateliê em tempo real.</h2>
+        </div>
+        <div class="font-sans text-sm text-white/50 uppercase tracking-widest pb-2 border-b border-white/10 reveal delay-1">
+          Processos, bastidores e novidades
+        </div>
+      </div>
+
+      <!-- Instagram Feed Preview -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
+        <div class="reveal group delay-1 lg:col-span-2 lg:row-span-2 aspect-square">
+          <div class="img-zoom w-full h-full rounded-3xl overflow-hidden">
+            <img src="images/525093518_17844698127539765_8370782761005645894_n.jpg" class="w-full h-full object-cover" alt="Bandeja floral grande" loading="lazy">
+          </div>
+        </div>
+        <div class="reveal group delay-2 aspect-[4/5]">
+          <div class="img-zoom w-full h-full rounded-3xl overflow-hidden">
+            <img src="images/537463229_17849549301539765_3303244773645564297_n.jpg" class="w-full h-full object-cover" alt="Bandeja borboletas" loading="lazy">
+          </div>
+        </div>
+        <div class="reveal group delay-3 aspect-[4/5]">
+          <div class="img-zoom w-full h-full rounded-3xl overflow-hidden">
+            <img src="images/546463733_17852455548539765_7983458871117912319_n.jpg" class="w-full h-full object-cover" alt="Bandeja com flores do campo" loading="lazy">
+          </div>
+        </div>
+        <div class="reveal group delay-4 aspect-[4/5]">
+          <div class="img-zoom w-full h-full rounded-3xl overflow-hidden">
+            <img src="images/564211031_17856987735539765_4445398928685907090_n.jpg" class="w-full h-full object-cover" alt="Pratinho floral" loading="lazy">
+          </div>
+        </div>
+        <div class="reveal group delay-5 lg:col-span-2 lg:row-span-2 aspect-square hidden lg:block">
+          <div class="img-zoom w-full h-full rounded-3xl overflow-hidden">
+            <img src="images/792070681_17905865814539765_5862958836317969812_n.jpg" class="w-full h-full object-cover" alt="Detalhes natalinos" loading="lazy">
+          </div>
+        </div>
+        <div class="reveal group delay-6 aspect-[4/5] hidden lg:block">
+          <div class="img-zoom w-full h-full rounded-3xl overflow-hidden">
+            <img src="images/533097522_17847987036539765_3690739058489965108_n.jpg" class="w-full h-full object-cover" alt="Travessa oval" loading="lazy">
+          </div>
+        </div>
+        <div class="reveal group delay-1 aspect-[4/5] hidden lg:block">
+          <div class="img-zoom w-full h-full rounded-3xl overflow-hidden">
+            <img src="images/542745714_17851817811539765_8392658137216634846_n.jpg" class="w-full h-full object-cover" alt="Porta-joias floral" loading="lazy">
+          </div>
+        </div>
+      </div>
+
+      <!-- Instagram CTA -->
+      <div class="reveal relative rounded-[3rem] bg-brand-clay p-12 md:p-20 text-center overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-brand-earth/10 to-transparent"></div>
+        <div class="relative z-10">
+          <div class="flex items-center justify-center gap-3 mb-6">
+            <svg class="w-8 h-8 text-brand-earth" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-.126-1.28-.072-1.687.072-4.947.196-4.354 2.618-6.78 6.98-6.98 1.281-.059 1.69-.073 4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </div>
+          <h3 class="font-display italic text-3xl md:text-4xl text-brand-ink mb-4">@atelieemma_maria</h3>
+          <p class="font-sans font-light text-lg text-brand-ink/70 mb-8 max-w-lg mx-auto">
+            Acompanhe o processo criativo, veja peças em tempo real e seja a primeira a saber das novidades.
+          </p>
+          <a href="https://instagram.com/atelieemma_maria" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-3 py-4 px-10 bg-brand-ink text-white rounded-full font-sans text-sm tracking-widest uppercase hover:bg-brand-ink/80 transition-all duration-200 hover:shadow-xl hover:scale-[1.02]">
+            Seguir no Instagram
+            <svg class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Split Philosophy Section -->
+  <section id="processo" class="bg-brand-clay py-32 px-6 lg:px-20 overflow-hidden">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+      <div class="reveal order-2 lg:order-1">
+        <div class="font-accent text-xs tracking-[0.4em] uppercase text-brand-earth mb-4">Filosofia</div>
+        <h2 class="font-display italic text-4xl lg:text-5xl mb-8 leading-tight text-brand-ink">A arte de esperar o tempo do pincel.</h2>
+        <p class="font-sans font-light text-lg text-brand-ink/70 leading-relaxed mb-8 reveal delay-1">
+          No Ateliê Emma_Maria, não corremos contra o tempo. Cada peça é um processo de escuta: entendemos seu desejo e o traduzimos em pinceladas únicas. 
+        </p>
+        <div class="space-y-6">
+          <div class="flex gap-4 reveal delay-2">
+            <div class="w-12 h-[1px] bg-brand-earth mt-3"></div>
+            <div>
+              <h4 class="font-sans font-medium uppercase tracking-widest text-xs mb-2">Exclusividade</h4>
+              <p class="font-sans font-light text-sm text-brand-ink/60">Nunca duas peças serão iguais. Sua porcelana é só sua.</p>
+            </div>
+          </div>
+          <div class="flex gap-4 reveal delay-3">
+            <div class="w-12 h-[1px] bg-brand-earth mt-3"></div>
+            <div>
+              <h4 class="font-sans font-medium uppercase tracking-widest text-xs mb-2">Curadoria</h4>
+              <p class="font-sans font-light text-sm text-brand-ink/60">Materiais de alta qualidade para garantir durabilidade e brilho.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal order-1 lg:order-2" style="transition-delay: 80ms">
+        <div class="relative">
+          <img src="images/530474392_17847561855539765_6490016068958914809_n.jpg" class="rounded-[3rem] shadow-2xl scale-110 lg:translate-x-20" alt="Processo Criativo" loading="lazy">
+          <div class="absolute inset-0 rounded-[3rem] border-2 border-brand-earth/20 translate-x-6 translate-y-6 -z-10"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section id="contato" class="py-40 px-6 text-center">
+    <div class="max-w-4xl mx-auto reveal">
+      <div class="font-display italic text-fluid-h2 mb-12 reveal delay-1">
+        Vamos criar algo único juntas?
+      </div>
+      <p class="font-sans font-light text-lg text-brand-ink/60 mb-16 max-w-xl mx-auto reveal delay-2">
+        Clique abaixo para iniciar uma conversa no WhatsApp e transformar sua ideia em porcelana.
+      </p>
+      <a href="https://wa.me/5519996359152" target="_blank" rel="noopener noreferrer" class="inline-block py-6 px-16 border border-brand-ink rounded-full font-sans text-sm tracking-[0.3em] uppercase hover:bg-brand-ink hover:text-white transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] reveal delay-3">
+        Iniciar Orçamento
+      </a>
+      <div class="mt-12 flex justify-center gap-8 opacity-40 hover:opacity-100 transition-opacity duration-300 reveal delay-4">
+        <span class="font-sans text-[10px] tracking-widest uppercase">+55 19 99635-9152</span>
+        <span class="font-sans text-[10px] tracking-widest uppercase">@atelieemma_maria</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Minimal Footer -->
+  <footer class="py-20 px-6 border-t border-brand-clay">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+      <div class="font-accent text-sm tracking-widest uppercase opacity-40">Ateliê Emma Maria © 2026</div>
+      <div class="flex gap-12 font-sans text-[10px] tracking-[0.2em] uppercase opacity-40">
+        <a href="#" class="hover:opacity-100 transition-opacity duration-200">Privacy</a>
+        <a href="#" class="hover:opacity-100 transition-opacity duration-200">Shipping</a>
+        <a href="#" class="hover:opacity-100 transition-opacity duration-200">Terms</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ===== HERO LINES REVEAL ON LOAD =====
+    document.addEventListener('DOMContentLoaded', () => {
+      requestAnimationFrame(() => {
+        document.querySelectorAll('.hero-line').forEach(el => {
+          el.classList.add('is-visible');
+        });
+      });
+    });
+
+    // ===== MOBILE MENU =====
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+
+    function closeMobileMenu() {
+      mobileMenuBtn.setAttribute('aria-expanded', 'false');
+      mobileMenu.classList.remove('open');
+      mobileMenuOverlay.classList.remove('open');
+      mobileMenuOverlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    function openMobileMenu() {
+      mobileMenuBtn.setAttribute('aria-expanded', 'true');
+      mobileMenu.classList.add('open');
+      mobileMenuOverlay.classList.add('open');
+      mobileMenuOverlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    mobileMenuBtn.addEventListener('click', () => {
+      const isOpen = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
+      isOpen ? closeMobileMenu() : openMobileMenu();
+    });
+
+    mobileMenuOverlay.addEventListener('click', closeMobileMenu);
+
+    // Close menu when clicking a link
+    mobileMenu.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener('click', closeMobileMenu);
+    });
+
+    // Close on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
+        closeMobileMenu();
+      }
+    });
+
+    // ===== SCROLL REVEAL - OPTIMIZED =====
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { 
+      threshold: 0.06, 
+      rootMargin: '0px 0px -30px 0px' 
+    });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    // ===== SMOOTH SCROLL FOR ANCHOR LINKS =====
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const targetId = this.getAttribute('href');
+        if (targetId === '#' || targetId === '#top') return;
+        const target = document.querySelector(targetId);
+        if (target) {
+          e.preventDefault();
+          const headerHeight = document.querySelector('header').offsetHeight;
+          const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+          window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+        }
+      });
+    });
+
+    // Logo click to top
+    document.querySelector('a[href="#top"]').addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+
+</body>
+</html>
